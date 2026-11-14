@@ -235,7 +235,7 @@ const View3D = (() => {
     requestRender();
   }
 
-  function setBackground(dark) { if (scene) { scene.background = new THREE.Color(dark ? 0x1b212b : 0xdfe8f0); requestRender(); } }
+  function setBackground(dark) { if (scene) { scene.background = new THREE.Color(dark ? 0x000000 : 0xdfe8f0); requestRender(); } }
   function preset(name, d) {
     const size = Math.max(d.width, d.length);
     if (name === 'front') { cam.theta = 0; cam.phi = 1.35; cam.dist = size * 2.6; }

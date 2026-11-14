@@ -25,16 +25,16 @@ body.app-projektant { --accent: #c45e1a; --accent-soft: #fbeadf; }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12161d; --surface: #1b212b; --surface-2: #232b37; --text: #e6e9ef; --muted: #9aa5b5;
-    --border: #2e3846; --accent: #5aa0e6; --accent-ink: #0d1520; --accent-soft: #1d3046;
+    --bg: #000000; --surface: #121212; --surface-2: #1e1e1e; --text: #ececec; --muted: #a0a0a0;
+    --border: #2c2c2c; --accent: #5aa0e6; --accent-ink: #000000; --accent-soft: #172433;
     --ok: #5cc98a; --ok-soft: #173325; --warn: #e8b04a; --warn-soft: #3a2d12; --bad: #f08079; --bad-soft: #3d1d1b;
     --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark;
   }
   :root:not([data-theme="light"]) body.app-projektant { --accent: #ef9a5c; --accent-soft: #3a2616; }
 }
 :root[data-theme="dark"] {
-  --bg: #12161d; --surface: #1b212b; --surface-2: #232b37; --text: #e6e9ef; --muted: #9aa5b5;
-  --border: #2e3846; --accent: #5aa0e6; --accent-ink: #0d1520; --accent-soft: #1d3046;
+  --bg: #000000; --surface: #121212; --surface-2: #1e1e1e; --text: #ececec; --muted: #a0a0a0;
+  --border: #2c2c2c; --accent: #5aa0e6; --accent-ink: #000000; --accent-soft: #172433;
   --ok: #5cc98a; --ok-soft: #173325; --warn: #e8b04a; --warn-soft: #3a2d12; --bad: #f08079; --bad-soft: #3d1d1b;
   --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark;
 }
