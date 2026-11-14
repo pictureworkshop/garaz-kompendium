@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Planer garażu</title>
+  <meta name="description" content="Plan budowy garażu: formalności, harmonogram, budżet i kompendium wiedzy.">
+  <meta name="theme-color" content="#1e5ea0">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="../shared/icons/planer-192.png">
+  <link rel="apple-touch-icon" href="../shared/icons/planer-apple-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Planer garażu">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    /* Harmonogram (Gantt) */
+    .gantt { position: relative; }
+    .g-head, .g-row { display: grid; grid-template-columns: 1fr; gap: 2px 12px; align-items: center; }
+    .g-row { padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .g-row:hover { background: var(--surface-2); }
+    .g-label { font-size: .88rem; display: flex; gap: 8px; align-items: center; min-width: 0; }
+    .g-label .nm { flex: 1; min-width: 0; }
+    .g-label .dt { font-size: .75rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .g-track { position: relative; height: 16px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+    .g-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 4px; background: var(--accent); min-width: 4px; }
+    .g-bar.f { background: #7b5cc4; }
+    .g-bar.wait { background: repeating-linear-gradient(45deg, var(--muted) 0 4px, transparent 4px 8px); opacity: .6; }
+    .g-bar.done { background: var(--ok); }
+    .g-bar.warn { outline: 2px solid var(--warn); }
+    .g-today { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--bad); z-index: 2; }
+    .g-months { position: relative; height: 18px; font-size: .7rem; color: var(--muted); }
+    .g-months span { position: absolute; top: 0; white-space: nowrap; border-left: 1px solid var(--border); padding-left: 3px; }
+    .g-row.done .nm { text-decoration: line-through; color: var(--muted); }
+    @media (min-width: 760px) {
+      .g-head, .g-row { grid-template-columns: minmax(220px, 34%) 1fr; }
+    }
+    .chk-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .chk-item:last-child { border-bottom: 0; }
+    .chk-item .tx { flex: 1; min-width: 0; }
+    .chk-item .tx b { display: block; font-weight: 600; }
+    .chk-item.done .tx b { text-decoration: line-through; color: var(--muted); }
+    .chk-item .tx p { margin: 2px 0 0; font-size: .85rem; color: var(--muted); }
+    .chk-item textarea { margin-top: 6px; min-height: 40px; font-size: 14px; }
+    .bars .bar-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 8px; align-items: center; font-size: .85rem; margin-bottom: 8px; }
+    .bars .bar-track { position: relative; height: 18px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+    .bars .bar-plan { position: absolute; inset: 0 auto 0 0; background: var(--accent-soft); border-right: 2px solid var(--accent); }
+    .bars .bar-act { position: absolute; top: 5px; bottom: 5px; left: 0; background: var(--accent); border-radius: 3px; }
+    .bars .bar-act.over { background: var(--bad); }
+    .article-list { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    @media (min-width: 700px) { .article-list { grid-template-columns: 1fr 1fr; } }
+    .article-list button { display: flex; gap: 12px; align-items: center; text-align: left; padding: 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); }
+    .article-list button:hover { border-color: var(--accent); }
+    .article-list svg { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; }
+    .hero { display: flex; gap: 14px; align-items: flex-start; }
+    .hero .big { font-size: 1.5rem; font-weight: 800; }
+  </style>
+</head>
+<body class="app-planer">
+  <header class="topbar">
+    <img src="../shared/icons/planer-192.png" alt="">
+    <div class="title">Planer garażu<small id="subtitle">formalności · harmonogram · budżet</small></div>
+    <button id="installBtn" class="iconbtn" hidden title="Zainstaluj aplikację"></button>
+    <button id="themeBtn" class="iconbtn" title="Motyw"></button>
+    <a class="btn small" href="../projektant/" title="Przejdź do Projektanta">Projektant →</a>
+  </header>
+  <div class="layout">
+    <nav class="sidenav" aria-label="Sekcje"></nav>
+    <main id="view" tabindex="-1"></main>
+  </div>
+  <nav class="tabbar" aria-label="Sekcje"></nav>
+
+  <script src="../shared/common.js"></script>
+  <script src="../shared/garage-calc.js"></script>
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

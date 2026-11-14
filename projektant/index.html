@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Projektant garażu</title>
+  <meta name="description" content="Zaprojektuj garaż: wymiary, dach, brama, położenie na działce, widok 3D, rysunki i kosztorys.">
+  <meta name="theme-color" content="#c45e1a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="../shared/icons/projektant-192.png">
+  <link rel="apple-touch-icon" href="../shared/icons/projektant-apple-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Projektant">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    :root { --e-wall: #ece6dc; --e-plinth: #8b8f94; --plot: #e5f0dc; --house: #d9d3c9; --street: #9a9da1; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --e-wall: #5a5650; --e-plinth: #4a4e54; --plot: #1f2d1d; --house: #3e3b37; --street: #3b3f45; } }
+    :root[data-theme="dark"] { --e-wall: #5a5650; --e-plinth: #4a4e54; --plot: #1f2d1d; --house: #3e3b37; --street: #3b3f45; }
+    @media print { :root, :root[data-theme] { --e-wall: #f1ece4; --e-plinth: #9a9a9a; --plot: #fff; --house: #e6e6e6; --street: #c9c9c9; } }
+
+    .split { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    .split > .preview { order: -1; }
+    @media (min-width: 1000px) {
+      .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+      .split > .preview { order: 0; position: sticky; top: 73px; }
+    }
+    svg.drawing { width: 100%; height: auto; display: block; font-family: var(--font); max-height: 70vh; }
+    .drawing .wall { fill: url(#hatch); stroke: var(--text); stroke-width: 3; }
+    .drawing .hatch-bg { fill: var(--surface-2); }
+    .drawing .hatch-line { stroke: var(--muted); stroke-width: 2; }
+    .drawing .cut { fill: var(--surface); }
+    .drawing .frame { fill: none; stroke: var(--text); stroke-width: 2; }
+    .drawing .glass { stroke: #4a90c8; stroke-width: 3; }
+    .drawing .leaf { stroke: var(--text); stroke-width: 4; }
+    .drawing .swing { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 6 5; }
+    .drawing .gateline { stroke: var(--accent); stroke-width: 4; stroke-dasharray: 14 8; }
+    .drawing .overhang { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 10 8; }
+    .drawing .car rect, .drawing .car path { fill: none; stroke: var(--muted); stroke-width: 3; stroke-dasharray: 8 6; }
+    .drawing .car.bad rect { stroke: var(--bad); }
+    .drawing .dim line { stroke: var(--muted); stroke-width: 1.5; }
+    .drawing .dim .tick { stroke-width: 3; }
+    .drawing .dim text { fill: var(--text); font-size: 22px; }
+    .drawing .dim.small text { font-size: 18px; fill: var(--muted); }
+    .drawing .dim.main text { font-weight: 700; font-size: 26px; }
+    .drawing .olabel { font-size: 18px; fill: var(--accent); font-weight: 700; }
+    .drawing .center { font-size: 30px; font-weight: 700; fill: var(--text); }
+    .drawing .center.sub { font-size: 22px; font-weight: 400; fill: var(--muted); }
+    .drawing .note, .drawing .level { font-size: 20px; fill: var(--muted); }
+    .drawing .ground { stroke: var(--text); stroke-width: 4; }
+    .drawing .plinth { fill: var(--e-plinth); }
+    .drawing .ewall { fill: var(--e-wall); stroke: var(--text); stroke-width: 3; stroke-linejoin: round; }
+    .drawing .roof { fill: #6b3a32; stroke: var(--text); stroke-width: 3; stroke-linejoin: round; }
+    .drawing .roof-trapez, .drawing .roof-rabek { fill: #4f565d; }
+    .drawing .roof-dachowka { fill: #a0492f; }
+    .drawing .roof-gont { fill: #594b44; }
+    .drawing .roof-papa, .drawing .roof-epdm { fill: #333; }
+    .drawing .gate { fill: #f4f4f4; stroke: var(--text); stroke-width: 2.5; }
+    .drawing .gatel { stroke: #9a9a9a; stroke-width: 2; }
+    .drawing .gatel.thin { stroke-width: 1; }
+    .drawing .door { fill: #5b6670; stroke: var(--text); stroke-width: 2.5; }
+    .drawing .handle { fill: #ddd; }
+    .drawing .window { fill: #a9d2ee; stroke: var(--text); stroke-width: 3; }
+    .drawing .wframe { stroke: var(--text); stroke-width: 2; }
+    .drawing .street { fill: var(--street); }
+    .drawing .streetlabel { fill: #fff; font-weight: 700; letter-spacing: .1em; }
+    .drawing .plot { fill: var(--plot); stroke: var(--text); }
+    .drawing .buildline { stroke: var(--bad); fill: none; }
+    .drawing .house { fill: var(--house); stroke: var(--text); }
+    .drawing .garage { fill: var(--accent-soft); stroke: var(--accent); }
+    .drawing .opmark.brama { stroke: var(--accent); }
+    .drawing .opmark.drzwi { stroke: #5b6670; }
+    .drawing .opmark.okno { stroke: #4a90c8; }
+    .drawing .dist line { stroke: var(--ok); }
+    .drawing .dist circle { fill: var(--ok); }
+    .drawing .dist text { fill: var(--ok); font-weight: 700; stroke: var(--surface); stroke-width: 5px; }
+    .drawing .dist.bad line, .drawing .dist.bad text { stroke: var(--bad); } .drawing .dist.bad text { fill: var(--bad); stroke: var(--surface); } .drawing .dist.bad circle { fill: var(--bad); }
+    .drawing .dist.warn line { stroke: var(--warn); } .drawing .dist.warn text { fill: var(--warn); } .drawing .dist.warn circle { fill: var(--warn); }
+    .drawing .dist.info line { stroke: var(--muted); } .drawing .dist.info text { fill: var(--muted); } .drawing .dist.info circle { fill: var(--muted); }
+    .drawing .draggable { cursor: grab; }
+    .drawing.dragging .draggable { cursor: grabbing; }
+    .site-wrap { touch-action: none; }
+
+    .canvas3d { position: relative; height: min(68vh, 640px); min-height: 320px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--surface-2); }
+    .canvas3d .hint3d { position: absolute; left: 10px; bottom: 8px; font-size: .75rem; color: #fff; background: rgba(0,0,0,.45); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+    .chk { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: .9rem; }
+    .chk:last-child { border-bottom: 0; }
+    .chk .ic { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .8rem; }
+    .chk .ic.ok { background: var(--ok-soft); color: var(--ok); } .chk .ic.warn { background: var(--warn-soft); color: var(--warn); }
+    .chk .ic.bad { background: var(--bad-soft); color: var(--bad); } .chk .ic.info { background: var(--surface-2); color: var(--muted); }
+    .chk .tx { flex: 1; min-width: 0; } .chk .tx b { display: block; } .chk .tx small { display: block; }
+    .chk .val { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .presets { display: flex; gap: 6px; flex-wrap: wrap; }
+    .op-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; background: var(--surface); }
+    .op-card.sel { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+    .op-card .head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 700; }
+    .elev-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 800px) { .elev-grid { grid-template-columns: 1fr 1fr; } }
+    .drawing-card h3 { font-size: .9rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .hdr-badge { font-size: .75rem; }
+    @media (max-width: 480px) { .hdr-badge { display: none; } }
+    .price-cell { white-space: nowrap; font-size: .8rem; color: var(--muted); }
+    .sheet-title { display: none; }
+    @media print {
+      .drawing-card { page-break-inside: avoid; }
+      .page-break { page-break-before: always; }
+      .sheet-title { display: block; border: 2px solid #000; padding: 8px 12px; margin-bottom: 10px; }
+      svg.drawing { max-height: none; }
+      .split > .preview { display: none; }
+    }
+  </style>
+</head>
+<body class="app-projektant">
+  <header class="topbar">
+    <img src="../shared/icons/projektant-192.png" alt="">
+    <div class="title">Projektant garażu<small id="subtitle">—</small></div>
+    <span id="hdrBadge" class="hdr-badge"></span>
+    <button id="installBtn" class="iconbtn" hidden title="Zainstaluj aplikację"></button>
+    <button id="themeBtn" class="iconbtn" title="Motyw"></button>
+    <a class="btn small" href="../planer/" title="Przejdź do Planera">Planer →</a>
+  </header>
+  <div class="layout">
+    <nav class="sidenav" aria-label="Sekcje"></nav>
+    <main id="view" tabindex="-1"></main>
+  </div>
+  <nav class="tabbar" aria-label="Sekcje"></nav>
+
+  <script src="../shared/common.js"></script>
+  <script src="../shared/garage-calc.js"></script>
+  <script src="../shared/lib/three.min.js"></script>
+  <script src="drawings.js"></script>
+  <script src="view3d.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

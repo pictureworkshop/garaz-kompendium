@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Garaż – kompendium budowy</title>
+  <meta name="description" content="Dwie aplikacje PWA: Planer budowy garażu i Projektant garażu.">
+  <meta name="theme-color" content="#2e4057">
+  <link rel="icon" type="image/png" href="shared/icons/favicon-64.png">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 16px 48px; }
+    .apps { display: grid; gap: 16px; grid-template-columns: 1fr; margin: 24px 0; }
+    @media (min-width: 700px) { .apps { grid-template-columns: 1fr 1fr; } }
+    .app { display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--text); }
+    .app:hover { border-color: var(--accent); }
+    .app img { width: 64px; height: 64px; border-radius: 14px; }
+    .app h2 { margin: 0; }
+    .app ul { margin: 0; padding-left: 1.2em; color: var(--muted); font-size: .92rem; }
+    .app .btn { align-self: flex-start; margin-top: auto; }
+    .app.p2 { --accent: #c45e1a; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 style="font-size:1.8rem">Budowa garażu – kompendium</h1>
+    <p class="muted">Dwie współpracujące aplikacje. Działają offline i można je zainstalować na telefonie lub komputerze. Dane zostają na Twoim urządzeniu.</p>
+    <div class="apps">
+      <a class="app" href="projektant/">
+        <img src="shared/icons/projektant-192.png" alt="">
+        <h2>Projektant garażu</h2>
+        <ul><li>wymiary, ściany, dach, fundamenty</li><li>brama, drzwi, okna</li><li>położenie na działce z kontrolą odległości</li><li>widok 3D, rzut, elewacje, opis do zgłoszenia</li><li>kosztorys materiałów i robocizny</li></ul>
+        <span class="btn primary" style="background:#c45e1a;border-color:#c45e1a;color:#fff">Otwórz Projektanta →</span>
+      </a>
+      <a class="app" href="planer/">
+        <img src="shared/icons/planer-192.png" alt="">
+        <h2>Planer budowy</h2>
+        <ul><li>kreator: zgłoszenie czy pozwolenie</li><li>lista kontrolna dokumentów krok po kroku</li><li>harmonogram (Gantt) z przerwami technologicznymi</li><li>budżet: plan vs wydatki</li><li>kompendium wiedzy, notatki, kontakty</li></ul>
+        <span class="btn primary" style="background:#1e5ea0;border-color:#1e5ea0;color:#fff">Otwórz Planera →</span>
+      </a>
+    </div>
+    <div class="callout"><b>Kolejność pracy:</b> 1) zaprojektuj garaż w Projektancie → 2) w Planerze sprawdź ścieżkę formalną, przenieś kosztorys do budżetu i ustaw harmonogram → 3) wydrukuj rysunki i opis do zgłoszenia.</div>
+    <p class="muted" style="font-size:.85rem">Treści mają charakter informacyjny (stan prawny: listopad 2026) i nie zastępują porady architekta ani urzędu.</p>
+  </div>
+</body>
+</html>
