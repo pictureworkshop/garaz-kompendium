@@ -1,5 +1,7 @@
 # Garaż – kompendium budowy (2 aplikacje PWA)
 
+**Na żywo:** <https://pictureworkshop.github.io/garaz-kompendium/> · [Projektant](https://pictureworkshop.github.io/garaz-kompendium/projektant/) · [Planer](https://pictureworkshop.github.io/garaz-kompendium/planer/)
+
 | Aplikacja | Folder | Do czego |
 |---|---|---|
 | **Projektant garażu** | `projektant/` | wymiary, ściany, dach, fundamenty, brama/drzwi/okna, położenie na działce, widok 3D, rzut + 4 elewacje + plan sytuacyjny, opis techniczny do zgłoszenia, kosztorys, kontrola przepisów, warianty |
