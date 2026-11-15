@@ -100,11 +100,16 @@ const Drawings = (() => {
         for (const f of [0.4, 0.6]) { const p1 = P(...mid(a, ai, f)), p2 = P(...mid(b, bi, f)); out += `<line class="glass" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}"/>`; }
         out += `<polygon class="frame" points="${pts}"/>`;
       } else if (op.type === 'drzwi') {
-        const hinge = ai, end = [ai[0] + nin[0] * op.width, ai[1] + nin[1] * op.width];
-        const [hx, hy] = P(...hinge), [ex, ey] = P(...end), [bx2, by2] = P(...bi);
+        const outward = (op.swing || 'out') === 'out';
+        const leftOut = GarageCalc.doorHingeLeftOutside(op); // zawiasy przy końcu „a” (lewy patrząc z zewnątrz)
+        const face = outward ? [a, b] : [ai, bi];
+        const dir = outward ? [s.nx, s.ny] : nin;
+        const H = leftOut ? face[0] : face[1], J = leftOut ? face[1] : face[0];
+        const E = [H[0] + dir[0] * op.width, H[1] + dir[1] * op.width];
+        const [hx, hy] = P(...H), [ex, ey] = P(...E), [jx, jy] = P(...J);
         out += `<line class="leaf" x1="${hx}" y1="${hy}" x2="${ex}" y2="${ey}"/>`;
-        const cross = (end[0] - hinge[0]) * (bi[1] - hinge[1]) - (end[1] - hinge[1]) * (bi[0] - hinge[0]);
-        out += `<path class="swing" d="M${ex} ${ey} A${op.width * S} ${op.width * S} 0 0 ${cross > 0 ? 0 : 1} ${bx2} ${by2}"/>`;
+        const c = (ex - hx) * (jy - hy) - (ey - hy) * (jx - hx);
+        out += `<path class="swing" d="M${ex} ${ey} A${op.width * S} ${op.width * S} 0 0 ${c > 0 ? 1 : 0} ${jx} ${jy}"/>`;
       } else {
         const p1 = P(...mid(ai, [ai[0] + nin[0] * 0.25, ai[1] + nin[1] * 0.25])), p2 = P(...mid(bi, [bi[0] + nin[0] * 0.25, bi[1] + nin[1] * 0.25]));
         out += `<line class="gateline" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}"/>`;
@@ -175,7 +180,11 @@ const Drawings = (() => {
         else if (gt === 'rozwierana') out += `<line class="gatel" x1="${x0 + w / 2}" y1="${y0}" x2="${x0 + w / 2}" y2="${y0 + h}"/>`;
         else for (let i = 1; i < Math.round(op.width / 0.15); i++) out += `<line class="gatel thin" x1="${x0 + i * 15}" y1="${y0}" x2="${x0 + i * 15}" y2="${y0 + h}"/>`;
       } else if (op.type === 'drzwi') {
-        out += `<rect class="door" x="${x0}" y="${y0}" width="${w}" height="${h}"/><circle class="handle" cx="${x0 + w - 14}" cy="${y0 + h * 0.52}" r="5"/>`;
+        const leftOut = GarageCalc.doorHingeLeftOutside(op), inward = op.swing === 'in';
+        const hX = leftOut ? x0 : x0 + w, kX = leftOut ? x0 + w : x0; // strona zawiasów / klamki
+        out += `<rect class="door" x="${x0}" y="${y0}" width="${w}" height="${h}"/>`;
+        out += `<path class="dsym${inward ? ' away' : ''}" d="M${kX} ${y0} L${hX} ${y0 + h / 2} L${kX} ${y0 + h}"/>`;
+        out += `<circle class="handle" cx="${leftOut ? x0 + w - 14 : x0 + 14}" cy="${y0 + h * 0.52}" r="5"/>`;
       } else {
         out += `<rect class="window" x="${x0}" y="${y0}" width="${w}" height="${h}"/><line class="wframe" x1="${x0 + w / 2}" y1="${y0}" x2="${x0 + w / 2}" y2="${y0 + h}"/>`;
       }
@@ -253,7 +262,7 @@ const Drawings = (() => {
       `5. Ściany: ${m.name.toLowerCase()}, grubość ${cm(g.t)} cm${d.insulation > 0 ? `, ocieplenie styropianem ${d.insulation} cm` : ''}; ${m.light ? '' : 'wieniec żelbetowy, nadproża prefabrykowane/żelbetowe; '}elewacja – tynk cienkowarstwowy.`,
       `6. Dach: ${roofDesc}, okap ${cm(d.roof.overhang)} cm; konstrukcja drewniana; pokrycie: ${cover}.`,
       `7. Posadzka: betonowa na podsypce piaskowej, ze spadkiem w kierunku bramy.`,
-      `8. Stolarka: ${gates.map(x => `brama ${GarageCalc.GATE_TYPES[x.gate].name.toLowerCase()} ${cm(x.width)}×${cm(x.height)} cm${x.motor ? ' z napędem' : ''}`).join(', ') || 'brak bramy'}${doors.length ? `; drzwi ${doors.map(x => `${cm(x.width)}×${cm(x.height)} cm`).join(', ')}` : ''}${wins.length ? `; okna ${wins.map(x => `${cm(x.width)}×${cm(x.height)} cm`).join(', ')}` : ''}.`,
+      `8. Stolarka: ${gates.map(x => `brama ${GarageCalc.GATE_TYPES[x.gate].name.toLowerCase()} ${cm(x.width)}×${cm(x.height)} cm${x.motor ? ' z napędem' : ''}`).join(', ') || 'brak bramy'}${doors.length ? `; drzwi ${doors.map(x => `${cm(x.width)}×${cm(x.height)} cm (${GarageCalc.doorDesc(x)})`).join(', ')}` : ''}${wins.length ? `; okna ${wins.map(x => `${cm(x.width)}×${cm(x.height)} cm`).join(', ')}` : ''}.`,
       `9. Instalacje: ${d.options.electric ? 'elektryczna zasilana kablem ziemnym z instalacji budynku mieszkalnego' : 'brak'}; wentylacja grawitacyjna (kratki nawiewna i wywiewna).`,
       `10. Odprowadzenie wód opadowych: rynny i rury spustowe – na teren własnej działki (bez spływu na działki sąsiednie).`,
       `11. Usytuowanie: odległość od granicy lewej ${dist('left')}, prawej ${dist('right')}, tylnej ${dist('back')}; od granicy z drogą ${f2(p.y)} m${p.house && p.house.enabled ? `; od budynku mieszkalnego ${dist('house')}` : ''}.`,

@@ -1,5 +1,5 @@
 /* Service worker – planer (offline) */
-const CACHE = 'planer-v4';
+const CACHE = 'planer-v5';
 const ASSETS = [
   './', './index.html', './app.js', './manifest.webmanifest', './content.js',
   '../shared/style.css', '../shared/common.js', '../shared/garage-calc.js',

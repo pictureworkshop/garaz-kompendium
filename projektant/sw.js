@@ -1,5 +1,5 @@
 /* Service worker – projektant (offline) */
-const CACHE = 'projektant-v4';
+const CACHE = 'projektant-v5';
 const ASSETS = [
   './', './index.html', './app.js', './manifest.webmanifest', './drawings.js', './view3d.js', '../shared/lib/three.min.js',
   '../shared/style.css', '../shared/common.js', '../shared/garage-calc.js',

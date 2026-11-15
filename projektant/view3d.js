@@ -128,10 +128,12 @@ const View3D = (() => {
         }
         if (gt === 'rozwierana') { const ln = new THREE.Mesh(new THREE.BoxGeometry(0.02, op.height, 0.05), mat(0x999999)); ln.position.set(op.offset + op.width / 2, z0 + op.height / 2, inset); sub.add(ln); }
       } else if (op.type === 'drzwi') {
+        const di = op.swing === 'in' ? 0.06 : t - 0.06; // skrzydło przy licu, w stronę którego się otwiera
         const p = new THREE.Mesh(new THREE.BoxGeometry(op.width, op.height, 0.05), mat(COLORS.door, { roughness: 0.6 }));
-        p.position.set(op.offset + op.width / 2, z0 + op.height / 2, inset); sub.add(p);
+        p.position.set(op.offset + op.width / 2, z0 + op.height / 2, di); sub.add(p);
+        const hx = GarageCalc.doorHingeLeftOutside(op) ? op.offset + op.width - 0.12 : op.offset + 0.12;
         const hnd = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.03, 0.08), mat(0xcccccc, { metalness: 0.6 }));
-        hnd.position.set(op.offset + op.width - 0.12, z0 + 1.05, inset + 0.05); sub.add(hnd);
+        hnd.position.set(hx, z0 + 1.05, di + 0.05); sub.add(hnd);
       } else {
         const gl = new THREE.Mesh(new THREE.BoxGeometry(op.width, op.height, 0.02), mat(COLORS.glass, { roughness: 0.1, metalness: 0.3, transparent: true, opacity: 0.75 }));
         gl.position.set(op.offset + op.width / 2, z0 + op.height / 2, inset); sub.add(gl);

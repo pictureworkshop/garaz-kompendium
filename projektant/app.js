@@ -181,7 +181,7 @@ VIEWS.otwory = () => {
     <div>
       <div class="card"><div class="card-head"><h2 style="margin:0">Otwory</h2>
         <div class="row"><button class="btn small" data-add="brama">${icon('plus')} Brama</button><button class="btn small" data-add="drzwi">${icon('plus')} Drzwi</button><button class="btn small" data-add="okno">${icon('plus')} Okno</button></div></div>
-        <p class="muted" style="font-size:.82rem;margin:0">Położenie = odległość od lewego narożnika ściany, patrząc na nią <b>z zewnątrz</b>. Pamiętaj: ściana z oknem/drzwiami musi stać min. 4 m od granicy.</p>
+        <p class="muted" style="font-size:.82rem;margin:0">Położenie = odległość od lewego narożnika ściany, patrząc na nią <b>z zewnątrz</b>. Pamiętaj: ściana z oknem/drzwiami musi stać min. 4 m od granicy. Drzwi garażowe zwykle otwiera się <b>na zewnątrz</b> – nie zabierają miejsca przy aucie.</p>
       </div>
       ${D.openings.map((o, i) => `
         <div class="op-card ${o.id === selOp ? 'sel' : ''}" data-op="${o.id}">
@@ -193,6 +193,8 @@ VIEWS.otwory = () => {
             ${F('Szerokość [m]', `openings.${i}.width`, { min: 0.3, max: 8, step: 0.05 })}
             ${F('Wysokość [m]', `openings.${i}.height`, { min: 0.3, max: 4, step: 0.05 })}
             ${o.type === 'okno' ? F('Parapet [m]', `openings.${i}.sill`, { min: 0, max: 3, step: 0.05 }) : ''}
+            ${o.type === 'drzwi' ? F('Otwierane', `openings.${i}.swing`, { options: [['out', 'na zewnątrz'], ['in', 'do wewnątrz']] }) : ''}
+            ${o.type === 'drzwi' ? F('Strona', `openings.${i}.hand`, { options: [['lewe', 'lewe'], ['prawe', 'prawe']], hint: 'patrząc od strony, w którą się otwierają: zawiasy po lewej = lewe' }) : ''}
             ${o.type === 'brama' ? F('Typ bramy', `openings.${i}.gate`, { options: opt(GarageCalc.GATE_TYPES) }) : ''}
             ${o.type === 'brama' ? F('Napęd elektryczny', `openings.${i}.motor`, { type: 'bool' }) : ''}
           </div>
@@ -220,7 +222,7 @@ VIEWS.otwory = () => {
   }));
   view.querySelectorAll('[data-add]').forEach(b => b.onclick = () => {
     const type = b.dataset.add;
-    const presets = { brama: { wall: 'front', width: 2.5, height: 2.125, gate: 'segmentowa', motor: true }, drzwi: { wall: 'right', width: 0.9, height: 2.0 }, okno: { wall: 'back', width: 1.0, height: 0.6, sill: 1.5 } };
+    const presets = { brama: { wall: 'front', width: 2.5, height: 2.125, gate: 'segmentowa', motor: true }, drzwi: { wall: 'right', width: 0.9, height: 2.0, swing: 'out', hand: 'prawe' }, okno: { wall: 'back', width: 1.0, height: 0.6, sill: 1.5 } };
     const o = Object.assign({ id: uid(), type }, presets[type]);
     o.offset = +((GarageCalc.wallLen(D, o.wall) - o.width) / 2).toFixed(2);
     D.openings.push(o); selOp = o.id; commit(); route(true);

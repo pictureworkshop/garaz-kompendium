@@ -103,7 +103,7 @@ const GarageCalc = (() => {
       foundation: { type: 'lawy', frostZone: 3, insulate: false },
       openings: [
         { id: 'o1', type: 'brama', wall: 'front', offset: 1.15, width: 3.0, height: 2.25, gate: 'segmentowa', motor: true },
-        { id: 'o2', type: 'drzwi', wall: 'right', offset: 3.9, width: 0.9, height: 2.0 },
+        { id: 'o2', type: 'drzwi', wall: 'right', offset: 3.9, width: 0.9, height: 2.0, swing: 'out', hand: 'prawe' },
         { id: 'o3', type: 'okno', wall: 'left', offset: 2.4, width: 1.0, height: 0.6, sill: 1.5 },
       ],
       plot: {
@@ -131,6 +131,7 @@ const GarageCalc = (() => {
     out.options = Object.assign({}, def.options, d.options);
     out.prices = Object.assign({}, d.prices);
     out.openings = Array.isArray(d.openings) ? d.openings : def.openings;
+    for (const o of out.openings) if (o.type === 'drzwi') { if (!o.swing) o.swing = 'out'; if (!o.hand) o.hand = 'prawe'; }
     return out;
   }
 
@@ -287,7 +288,7 @@ const GarageCalc = (() => {
         const bmat = po.mat != null ? +po.mat : gt.base + gt.perM2 * o.width * o.height;
         add('brama', 1, { label: `Brama ${gt.name.toLowerCase()} ${fmt(o.width)}×${fmt(o.height)} m`, mat: bmat });
         if (o.motor) add('naped', 1);
-      } else if (o.type === 'drzwi') add('drzwi', 1, { label: `Drzwi zewnętrzne ${fmt(o.width)}×${fmt(o.height)} m` });
+      } else if (o.type === 'drzwi') add('drzwi', 1, { label: `Drzwi zewnętrzne ${fmt(o.width)}×${fmt(o.height)} m (${doorDesc(o)})` });
       else if (o.type === 'okno') add('okno', o.width * o.height, { label: `Okno ${fmt(o.width)}×${fmt(o.height)} m` });
     }
     // Instalacje
@@ -356,6 +357,11 @@ const GarageCalc = (() => {
         msg = relax ? 'Odległość między 0 a 1,5 m jest niedopuszczalna – przesuń garaż na granicę lub ≥1,5 m.' : 'Ściana bez otworów – min. 3 m (mniej tylko przy zgodzie MPZP, działce < 16 m lub budynku sąsiada przy granicy).';
       }
       res.push({ wall, label: `Ściana ${WALLS[wall].toLowerCase()} → granica`, dist: dv, need, status, msg });
+    }
+    // Drzwi otwierane na zewnątrz – skrzydło nie może wychodzić poza działkę
+    for (const o of (d.openings || []).filter(x => x.type === 'drzwi' && (x.swing || 'out') === 'out')) {
+      const dv = dist[o.wall];
+      if (dv < o.width + 0.1) res.push({ wall: o.wall, label: `Drzwi ${Math.round(o.width * 100)} cm (na zewnątrz) → granica`, dist: dv, need: o.width + 0.1, status: 'bad', msg: 'Otwarte skrzydło wychodzi poza działkę albo blokuje przejście. Zmień kierunek otwierania na do wewnątrz lub przesuń garaż.' });
     }
     // Front: droga i linia zabudowy
     const roadMin = ROAD_MIN[p.road] || 0;
@@ -440,9 +446,14 @@ const GarageCalc = (() => {
     return out;
   }
 
+  /* Drzwi: lewe/prawe wg PN-EN 12519 – patrząc od strony, w którą drzwi się otwierają (ciągniesz je do siebie),
+     zawiasy po lewej = lewe. Zwraca, czy zawiasy są przy lewym końcu otworu patrząc z zewnątrz (u = offset). */
+  function doorHingeLeftOutside(o) { return (o.swing || 'out') === 'out' ? (o.hand || 'prawe') === 'lewe' : (o.hand || 'prawe') === 'prawe'; }
+  function doorDesc(o) { return `${(o.swing || 'out') === 'out' ? 'otwierane na zewnątrz' : 'otwierane do wewnątrz'}, ${o.hand || 'prawe'}`; }
+
   function typeName(t) { return ({ brama: 'Brama', drzwi: 'Drzwi', okno: 'Okno' })[t] || t; }
   function fmt(n, d = 2) { return new Intl.NumberFormat('pl-PL', { maximumFractionDigits: d }).format(+n || 0); }
 
   return { WALLS, WALL_MATERIALS, ROOF_TYPES, ROOF_COVERS, GATE_TYPES, FROST, FROST_DESC, ROADS, ROAD_MIN, PRICES, CATEGORIES,
-    defaultDesign, normalize, geometry, quantities, costLines, costSummary, legal, boundaryChecks, ergonomics, openingSegment, wallLen, typeName, mat, price };
+    defaultDesign, normalize, doorHingeLeftOutside, doorDesc, geometry, quantities, costLines, costSummary, legal, boundaryChecks, ergonomics, openingSegment, wallLen, typeName, mat, price };
 })();
