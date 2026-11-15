@@ -1,44 +1,25 @@
 /* Garaż – wspólne style dla Planera i Projektanta */
 :root {
-  --bg: #f4f5f7;
-  --surface: #ffffff;
-  --surface-2: #f0f2f5;
-  --text: #1c2330;
-  --muted: #5d6879;
-  --border: #dde1e7;
-  --accent: #1e5ea0;
-  --accent-ink: #ffffff;
-  --accent-soft: #e3edf8;
-  --ok: #1d7a46;
-  --ok-soft: #e1f3e8;
-  --warn: #9a6200;
-  --warn-soft: #fdf1d8;
-  --bad: #b3261e;
-  --bad-soft: #fbe4e2;
-  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 2px 8px rgba(20, 30, 50, .05);
-  --radius: 12px;
-  --nav-h: 64px;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, sans-serif;
-  color-scheme: light;
-}
-body.app-projektant { --accent: #c45e1a; --accent-soft: #fbeadf; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #000000; --surface: #121212; --surface-2: #1e1e1e; --text: #ececec; --muted: #a0a0a0;
-    --border: #2c2c2c; --accent: #5aa0e6; --accent-ink: #000000; --accent-soft: #172433;
-    --ok: #5cc98a; --ok-soft: #173325; --warn: #e8b04a; --warn-soft: #3a2d12; --bad: #f08079; --bad-soft: #3d1d1b;
-    --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark;
-  }
-  :root:not([data-theme="light"]) body.app-projektant { --accent: #ef9a5c; --accent-soft: #3a2616; }
-}
-:root[data-theme="dark"] {
+  /* Domyślnie czarny motyw; jasny tylko po wybraniu przyciskiem motywu */
   --bg: #000000; --surface: #121212; --surface-2: #1e1e1e; --text: #ececec; --muted: #a0a0a0;
   --border: #2c2c2c; --accent: #5aa0e6; --accent-ink: #000000; --accent-soft: #172433;
   --ok: #5cc98a; --ok-soft: #173325; --warn: #e8b04a; --warn-soft: #3a2d12; --bad: #f08079; --bad-soft: #3d1d1b;
-  --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark;
+  --shadow: 0 1px 2px rgba(0,0,0,.4);
+  --radius: 12px;
+  --nav-h: 64px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, sans-serif;
+  color-scheme: dark;
 }
-:root[data-theme="dark"] body.app-projektant { --accent: #ef9a5c; --accent-soft: #3a2616; }
+body.app-projektant { --accent: #ef9a5c; --accent-soft: #3a2616; }
+
+:root[data-theme="light"] {
+  --bg: #f4f5f7; --surface: #ffffff; --surface-2: #f0f2f5; --text: #1c2330; --muted: #5d6879;
+  --border: #dde1e7; --accent: #1e5ea0; --accent-ink: #ffffff; --accent-soft: #e3edf8;
+  --ok: #1d7a46; --ok-soft: #e1f3e8; --warn: #9a6200; --warn-soft: #fdf1d8; --bad: #b3261e; --bad-soft: #fbe4e2;
+  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 2px 8px rgba(20, 30, 50, .05);
+  color-scheme: light;
+}
+:root[data-theme="light"] body.app-projektant { --accent: #c45e1a; --accent-soft: #fbeadf; }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }

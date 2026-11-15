@@ -117,26 +117,21 @@ function markNav(id) {
   if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
 }
 
-/* Motyw: auto / jasny / ciemny */
+/* Motyw: czarny (domyślny) / jasny */
 function applyTheme() {
-  const t = Store.get(KEYS.theme, 'auto');
-  if (t === 'auto') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
+  const t = Store.get(KEYS.theme, 'dark') === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.content = t === 'light' ? (m.dataset.light || '#ffffff') : '#000000');
   const btn = document.getElementById('themeBtn');
-  if (btn) { btn.innerHTML = icon(t === 'dark' ? 'moon' : t === 'light' ? 'sun' : 'auto'); btn.title = 'Motyw: ' + ({ auto: 'systemowy', light: 'jasny', dark: 'ciemny' })[t]; }
+  if (btn) { btn.innerHTML = icon(t === 'dark' ? 'moon' : 'sun'); btn.title = 'Motyw: ' + (t === 'dark' ? 'czarny' : 'jasny') + ' (kliknij, aby zmienić)'; }
 }
 function cycleTheme() {
-  const order = ['auto', 'light', 'dark'];
-  const t = Store.get(KEYS.theme, 'auto');
-  Store.set(KEYS.theme, order[(order.indexOf(t) + 1) % 3]);
+  const t = Store.get(KEYS.theme, 'dark') === 'light' ? 'dark' : 'light';
+  Store.set(KEYS.theme, t);
   applyTheme();
   document.dispatchEvent(new CustomEvent('themechange'));
 }
-function isDark() {
-  const t = document.documentElement.getAttribute('data-theme');
-  if (t) return t === 'dark';
-  return matchMedia('(prefers-color-scheme: dark)').matches;
-}
+function isDark() { return document.documentElement.getAttribute('data-theme') !== 'light'; }
 
 /* PWA: service worker + przycisk instalacji */
 let deferredInstall = null;

@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Projektant garażu</title>
   <meta name="description" content="Zaprojektuj garaż: wymiary, dach, brama, położenie na działce, widok 3D, rysunki i kosztorys.">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-  <meta name="theme-color" content="#c45e1a">
+  <meta name="theme-color" content="#000000" data-light="#c45e1a">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" href="../shared/icons/projektant-192.png">
   <link rel="apple-touch-icon" href="../shared/icons/projektant-apple-180.png">
@@ -15,9 +14,8 @@
   <meta name="apple-mobile-web-app-title" content="Projektant">
   <link rel="stylesheet" href="../shared/style.css">
   <style>
-    :root { --e-wall: #ece6dc; --e-plinth: #8b8f94; --plot: #e5f0dc; --house: #d9d3c9; --street: #9a9da1; }
-    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --e-wall: #5a5650; --e-plinth: #4a4e54; --plot: #1f2d1d; --house: #3e3b37; --street: #3b3f45; } }
-    :root[data-theme="dark"] { --e-wall: #5a5650; --e-plinth: #4a4e54; --plot: #1f2d1d; --house: #3e3b37; --street: #3b3f45; }
+    :root { --e-wall: #5a5650; --e-plinth: #4a4e54; --plot: #1f2d1d; --house: #3e3b37; --street: #3b3f45; }
+    :root[data-theme="light"] { --e-wall: #ece6dc; --e-plinth: #8b8f94; --plot: #e5f0dc; --house: #d9d3c9; --street: #9a9da1; }
     @media print { :root, :root[data-theme] { --e-wall: #f1ece4; --e-plinth: #9a9a9a; --plot: #fff; --house: #e6e6e6; --street: #c9c9c9; } }
 
     .split { display: grid; gap: 16px; grid-template-columns: 1fr; }

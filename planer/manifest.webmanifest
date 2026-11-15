@@ -8,8 +8,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#f4f5f7",
-  "theme_color": "#1e5ea0",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     { "src": "../shared/icons/planer-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "../shared/icons/planer-512.png", "sizes": "512x512", "type": "image/png" },
