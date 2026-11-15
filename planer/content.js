@@ -1,4 +1,4 @@
-/* Planer – treści: listy kontrolne, szablon harmonogramu, kompendium wiedzy.
+/* Planowanie budowy – treści: listy kontrolne, szablon harmonogramu, kompendium wiedzy.
    Stan prawny: listopad 2026 (Prawo budowlane po nowelizacji z 7.01.2026, reforma planistyczna). */
 'use strict';
 
@@ -14,9 +14,9 @@ const CHECKLISTS = {
       { id: 'prad', t: 'Zaplanuj zasilanie', d: 'Najprościej kablem ziemnym z rozdzielnicy domu (osobne zabezpieczenie, wyłącznik różnicowoprądowy). Rozważ zapas pod ładowarkę EV.' },
     ]},
     { phase: 'Dokumentacja do zgłoszenia', items: [
-      { id: 'koncepcja', t: 'Opracuj koncepcję w Projektancie', d: 'Wymiary, dach, brama, położenie na działce. Projektant sprawdzi limit 35 m² i odległości od granic.', app: 'projektant' },
+      { id: 'koncepcja', t: 'Opracuj koncepcję w Projektowaniu garażu', d: 'Wymiary, dach, brama, położenie na działce. Projektowanie garażu sprawdzi limit 35 m² i odległości od granic.', app: 'projektant' },
       { id: 'szkic', t: 'Szkic sytuacyjny', d: 'Garaż naniesiony na kopię mapy: wymiary zewnętrzne, odległości od granic, od domu i drogi, zjazd, odprowadzenie wody.' },
-      { id: 'rysunki', t: 'Rysunki: rzut i elewacje', d: 'Wymiary, wysokość do kalenicy, kąt dachu, otwory, materiały. Projektant → Rysunki → Drukuj.', app: 'projektant' },
+      { id: 'rysunki', t: 'Rysunki: rzut i elewacje', d: 'Wymiary, wysokość do kalenicy, kąt dachu, otwory, materiały. Projektowanie garażu → Rysunki → Drukuj.', app: 'projektant' },
       { id: 'opis', t: 'Krótki opis techniczny', d: 'Fundamenty, ściany, dach i pokrycie, brama, kolorystyka, odprowadzenie wód opadowych na własną działkę.' },
       { id: 'zgodnosc', t: 'Porównaj projekt z MPZP', d: 'Linia zabudowy, wysokość, dach, kolory, wskaźniki. Niezgodność = sprzeciw urzędu.' },
       { id: 'uzg', t: 'Uzgodnienia (jeśli dotyczy)', d: 'Konserwator zabytków, zarządca drogi, inne wynikające z położenia działki.' },
@@ -53,7 +53,7 @@ const CHECKLISTS = {
       { id: 'zjazd', t: 'Zjazd z drogi – zezwolenie zarządcy', d: 'Jeśli potrzebny nowy zjazd – złóż wniosek do zarządcy drogi na wczesnym etapie.' },
     ]},
     { phase: 'Projekt budowlany', items: [
-      { id: 'koncepcja', t: 'Koncepcja w Projektancie', d: 'Przygotuj założenia dla architekta: wymiary, dach, brama, położenie, budżet.', app: 'projektant' },
+      { id: 'koncepcja', t: 'Koncepcja w Projektowaniu garażu', d: 'Przygotuj założenia dla architekta: wymiary, dach, brama, położenie, budżet.', app: 'projektant' },
       { id: 'architekt', t: 'Wybierz architekta z uprawnieniami', d: 'Projekt indywidualny lub adaptacja gotowego projektu garażu.' },
       { id: 'mapaproj', t: 'Mapa do celów projektowych', d: 'Zamawia geodeta, zwykle 2–6 tygodni.' },
       { id: 'geotech', t: 'Opinia geotechniczna', d: 'Określa warunki gruntowe i kategorię geotechniczną.' },
@@ -222,7 +222,7 @@ const ARTICLES = [
 <li><b>Czterospadowy (kopertowy)</b> – estetyczny, droższy, więcej obróbek.</li>
 <li><b>Płaski</b> – nowoczesny, wymaga starannej hydroizolacji (papa 2×, EPDM) i spadku min. 2–3%.</li></ul>
 <p>Pokrycie lekkie (blachodachówka, trapez) pozwala na lżejszą więźbę; dachówka ceramiczna wymaga mocniejszej konstrukcji. Pod blachę stosuj membranę paroprzepuszczalną – ogranicza skraplanie i kapanie na auto.</p>
-<div class="callout">Całkowita wysokość (do kalenicy) musi zmieścić się w limicie MPZP – Projektant liczy ją automatycznie.</div>` },
+<div class="callout">Całkowita wysokość (do kalenicy) musi zmieścić się w limicie MPZP – Projektowanie garażu liczy ją automatycznie.</div>` },
 
   { id: 'brama', title: 'Brama garażowa – wybór', icon: 'gate', html: `
 <table><thead><tr><th>Typ</th><th>Zalety</th><th>Uwagi</th></tr></thead><tbody>
@@ -252,7 +252,7 @@ const ARTICLES = [
 <li>Część prac zrób samodzielnie: rozbiórki, wykończenie, opaska, malowanie.</li>
 <li>Zostaw 10–15% rezerwy – zawsze coś wyjdzie (grunt, wywóz ziemi, ceny stali).</li>
 <li>Płać wykonawcy etapami po odbiorze, nie z góry za całość.</li></ul>
-<p>Szczegółowy kosztorys z Twojego projektu policzy Projektant, a Planer zaimportuje go do budżetu.</p>` },
+<p>Szczegółowy kosztorys z Twojego projektu policzy Projektowanie garażu, a Planowanie budowy zaimportuje go do budżetu.</p>` },
 
   { id: 'podatek', title: 'Podatek, ewidencja i ubezpieczenie', icon: 'doc', html: `
 <ul><li>Garaż to budynek – podlega <b>podatkowi od nieruchomości</b>. Złóż informację <b>IN-1</b> w gminie w ciągu 14 dni od zakończenia budowy lub rozpoczęcia użytkowania (co nastąpi pierwsze).</li>

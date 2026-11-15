@@ -1,5 +1,5 @@
 /* Garaż – silnik obliczeń: geometria, zestawienie materiałów, koszty, kontrola przepisów.
-   Wszystkie wymiary w metrach. Ceny orientacyjne (PLN, 2026) – do edycji w Projektancie. */
+   Wszystkie wymiary w metrach. Ceny orientacyjne (PLN, 2026) – do edycji w Projektowaniu garażu. */
 'use strict';
 
 const GarageCalc = (() => {

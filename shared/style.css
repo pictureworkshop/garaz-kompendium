@@ -47,6 +47,14 @@ code { background: var(--surface-2); padding: 1px 5px; border-radius: 5px; font-
 .topbar img { width: 32px; height: 32px; border-radius: 8px; }
 .topbar .title { font-weight: 700; font-size: 1.05rem; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .topbar .title small { display: block; font-weight: 400; font-size: .78rem; }
+@media (max-width: 480px) {
+  .topbar { gap: 6px; padding-left: 12px; padding-right: 12px; }
+  .topbar img { width: 28px; height: 28px; }
+  .topbar .iconbtn { padding: 4px; }
+  .topbar .btn.small { padding: 4px 8px; }
+  .topbar .title { white-space: normal; font-size: .9rem; line-height: 1.2; text-overflow: clip; }
+  .topbar .title small { display: none; }
+}
 
 .layout { display: flex; min-height: calc(100vh - 57px); }
 .sidenav { display: none; }

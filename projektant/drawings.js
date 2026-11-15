@@ -1,4 +1,4 @@
-/* Projektant – rysunki SVG: rzut, elewacje, plan sytuacyjny. 1 m = 100 jednostek. */
+/* Projektowanie garażu – rysunki SVG: rzut, elewacje, plan sytuacyjny. 1 m = 100 jednostek. */
 'use strict';
 
 const Drawings = (() => {

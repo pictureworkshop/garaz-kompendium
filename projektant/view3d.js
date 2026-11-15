@@ -1,4 +1,4 @@
-/* Projektant – widok 3D (three.js r128, lokalnie). Rzut (x, y) → three (X = x, Z = -y), wysokość → Y. */
+/* Projektowanie garażu – widok 3D (three.js r128, lokalnie). Rzut (x, y) → three (X = x, Z = -y), wysokość → Y. */
 'use strict';
 
 const View3D = (() => {

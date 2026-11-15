@@ -1,4 +1,4 @@
-/* Projektant garażu */
+/* Projektowanie garażu */
 'use strict';
 
 const NAV = [
@@ -20,7 +20,7 @@ function commit(rerenderHeader = true) {
   clearTimeout(saveTimer); saveTimer = setTimeout(() => Store.set(KEYS.design, D), 250);
   if (rerenderHeader) header();
 }
-Store.set(KEYS.design, D); // pierwsze uruchomienie – zapisz domyślny projekt, by Planer go widział
+Store.set(KEYS.design, D); // pierwsze uruchomienie – zapisz domyślny projekt, by Planowanie budowy je widziało
 
 function header() {
   const g = GarageCalc.geometry(D), lg = GarageCalc.legal(D);
@@ -368,7 +368,7 @@ VIEWS.kosztorys = () => {
       ${F('Szkice do zgłoszenia przez architekta', 'options.formalSketchByArchitect', { type: 'bool', rerender: true })}
     </div>
     <div class="row" style="margin-top:12px">
-      <a class="btn primary" href="../planer/?import=1#budzet">${icon('wallet')} Przenieś do budżetu w Planerze</a>
+      <a class="btn primary" href="../planer/?import=1#budzet">${icon('wallet')} Przenieś do budżetu w Planowaniu budowy</a>
       <button class="btn" id="resetPrices">Przywróć ceny domyślne</button>
       <button class="btn" onclick="print()">${icon('print')} Drukuj</button>
     </div></div>
@@ -425,7 +425,7 @@ VIEWS.kontrola = () => {
     <div class="card"><div class="card-head"><h2 style="margin:0">Ścieżka formalna</h2><span class="badge ${lg.path === 'zgloszenie' ? 'ok' : 'warn'}">${lg.path === 'zgloszenie' ? 'Zgłoszenie' : 'Pozwolenie na budowę'}</span></div>
       <ul>${lg.reasons.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
       <div class="callout warn"><ul style="margin:0;padding-left:1.2em">${lg.notes.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>
-      <a class="btn small" href="../planer/#sciezka">${icon('route')} Kreator w Planerze</a></div>
+      <a class="btn small" href="../planer/#sciezka">${icon('route')} Kreator w Planowaniu budowy</a></div>
     <div class="grid grid-2">
       <div class="card"><div class="card-head"><h2 style="margin:0">Odległości</h2><button class="btn small" onclick="go('dzialka')">Działka</button></div>${bc.map(chkRow).join('')}</div>
       <div class="card"><div class="card-head"><h2 style="margin:0">Wymiary i otwory</h2><button class="btn small" onclick="go('otwory')">Otwory</button></div>${er.map(chkRow).join('')}</div>
@@ -449,7 +449,7 @@ VIEWS.warianty = () => {
       <button class="btn" id="exp">${icon('download')} Eksportuj projekt (.json)</button>
       <button class="btn" id="imp">${icon('upload')} Importuj projekt</button>
       <button class="btn danger" id="rst">Nowy projekt (domyślny)</button></div>
-      <p class="muted" style="font-size:.82rem;margin:10px 0 0">Pełną kopię (Planer + Projektant) zrobisz w Planerze → Ustawienia i kopia.</p></div>`;
+      <p class="muted" style="font-size:.82rem;margin:10px 0 0">Pełną kopię (Planowanie budowy + Projektowanie garażu) zrobisz w Planowaniu budowy → Ustawienia i kopia.</p></div>`;
   document.getElementById('vSave').onclick = () => {
     const name = document.getElementById('vName').value.trim() || D.name;
     vars.unshift({ name, date: isoDate(new Date()), design: JSON.parse(JSON.stringify(D)) });

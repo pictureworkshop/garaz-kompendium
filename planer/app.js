@@ -1,4 +1,4 @@
-/* Planer budowy garażu */
+/* Planowanie budowy */
 'use strict';
 
 const NAV = [
@@ -123,7 +123,7 @@ VIEWS.pulpit = () => {
       <dt>Wg projektu</dt><dd>${PATH_LABEL[lg.path]}</dd></dl>
       <div class="row" style="margin-top:12px"><a class="btn small" href="../projektant/">${icon('ruler')} Edytuj projekt</a><button class="btn small" id="impBudget">${icon('download')} Kosztorys → budżet</button></div>`;
   } else {
-    projHtml = `<p class="muted">Nie masz jeszcze projektu. W Projektancie ustawisz wymiary, dach, bramę i położenie na działce – Planer pobierze z niego ścieżkę formalną i kosztorys.</p><a class="btn primary" href="../projektant/">${icon('ruler')} Zaprojektuj garaż</a>`;
+    projHtml = `<p class="muted">Nie masz jeszcze projektu. W Projektowaniu garażu ustawisz wymiary, dach, bramę i położenie na działce – Planowanie budowy pobierze z niego ścieżkę formalną i kosztorys.</p><a class="btn primary" href="../projektant/">${icon('ruler')} Zaprojektuj garaż</a>`;
   }
   const month = new Date().getMonth() + 1;
   const tip = month >= 11 || month <= 2
@@ -137,7 +137,7 @@ VIEWS.pulpit = () => {
       <div style="flex:1">
         <div class="muted" style="font-size:.85rem">Twoja ścieżka formalna</div>
         <div class="big">${PATH_LABEL[path]}</div>
-        <p class="muted" style="margin:4px 0 0">${S.path ? 'Ustawiona ręcznie w kreatorze.' : d ? 'Wynika z projektu w Projektancie.' : 'Domyślnie – sprawdź w kreatorze.'}</p>
+        <p class="muted" style="margin:4px 0 0">${S.path ? 'Ustawiona ręcznie w kreatorze.' : d ? 'Wynika z projektu w Projektowaniu garażu.' : 'Domyślnie – sprawdź w kreatorze.'}</p>
       </div>
       <button class="btn small" onclick="go('sciezka')">${icon('route')} Kreator</button>
     </div></div>
@@ -262,7 +262,7 @@ VIEWS.formalnosci = () => {
           const k = checkKey(path, i.id), note = S.itemNotes[k] || '';
           return `<div class="chk-item ${S.checks[k] ? 'done' : ''}">
             <input type="checkbox" data-k="${k}" ${S.checks[k] ? 'checked' : ''} aria-label="${esc(i.t)}">
-            <div class="tx"><b>${esc(i.t)}</b><p>${esc(i.d)}${i.app === 'projektant' ? ' <a href="../projektant/">Otwórz Projektanta →</a>' : ''}</p>
+            <div class="tx"><b>${esc(i.t)}</b><p>${esc(i.d)}${i.app === 'projektant' ? ' <a href="../projektant/">Otwórz Projektowanie garażu →</a>' : ''}</p>
               <textarea data-n="${k}" placeholder="Notatka (np. nr sprawy, data złożenia)" ${note ? '' : 'hidden'}>${esc(note)}</textarea></div>
             <button class="iconbtn" data-tn="${k}" title="Notatka">${icon('edit')}</button>
           </div>`;
@@ -354,7 +354,7 @@ function editTask(t) {
 /* ---------- Budżet ---------- */
 function importBudget() {
   const d = design();
-  if (!d) { toast('Najpierw utwórz projekt w Projektancie'); return; }
+  if (!d) { toast('Najpierw utwórz projekt w Projektowaniu garażu'); return; }
   const cs = GarageCalc.costSummary(d);
   const old = Object.fromEntries(S.budget.filter(i => i.src === 'projekt').map(i => [i.key, i]));
   const manual = S.budget.filter(i => i.src !== 'projekt');
@@ -391,7 +391,7 @@ VIEWS.budzet = () => {
     </div>
     <div class="card">
       <div class="card-head"><h2>Pozycje</h2><div class="row">
-        <button class="btn small" id="imp">${icon('download')} Import z Projektanta</button>
+        <button class="btn small" id="imp">${icon('download')} Import z Projektowania garażu</button>
         <button class="btn small" id="limitBtn">Limit</button>
         <button class="btn small primary" id="add">${icon('plus')} Dodaj</button></div></div>
       ${S.budget.length ? `<div class="table-wrap"><table><thead><tr><th>Pozycja</th><th class="num">Plan</th><th class="num">Faktycznie</th><th>Opł.</th><th></th></tr></thead><tbody>
@@ -405,7 +405,7 @@ VIEWS.budzet = () => {
             <td><button class="iconbtn" data-edit="${i.id}" title="Edytuj">${icon('edit')}</button></td></tr>`).join('');
         }).join('')}
         </tbody><tfoot><tr><td>Razem</td><td class="num">${fmtMoney(bt.plan)}</td><td class="num">${fmtMoney(bt.actual)}</td><td colspan="2"></td></tr></tfoot></table></div>`
-      : `<p class="empty">Budżet jest pusty. Zaimportuj kosztorys z Projektanta albo dodaj pozycje ręcznie.</p>`}
+      : `<p class="empty">Budżet jest pusty. Zaimportuj kosztorys z Projektowania garażu albo dodaj pozycje ręcznie.</p>`}
     </div>`;
   document.getElementById('imp').onclick = () => { importBudget(); route(); };
   document.getElementById('add').onclick = () => editBudget(null);
@@ -527,17 +527,17 @@ function editContact(c) {
 VIEWS.ustawienia = () => {
   view.innerHTML = `
     <div class="card"><h2>Kopia zapasowa</h2>
-      <p class="muted">Dane (Planer + projekt z Projektanta) są zapisane tylko w tej przeglądarce. Zrób kopię, aby przenieść je na inne urządzenie.</p>
+      <p class="muted">Dane (Planowanie budowy + projekt z Projektowania garażu) są zapisane tylko w tej przeglądarce. Zrób kopię, aby przenieść je na inne urządzenie.</p>
       <div class="row"><button class="btn primary" id="exp">${icon('download')} Eksportuj (.json)</button><button class="btn" id="imp">${icon('upload')} Importuj</button></div>
     </div>
     <div class="card"><h2>Instalacja na telefonie</h2>
       <ul><li><b>Android / Chrome:</b> menu ⋮ → „Zainstaluj aplikację” (lub ikona instalacji w pasku u góry).</li>
       <li><b>iPhone / Safari:</b> Udostępnij → „Do ekranu początkowego”.</li>
       <li><b>Komputer (Chrome/Edge):</b> ikona instalacji w pasku adresu.</li></ul>
-      <p class="muted" style="margin:0">Planer i Projektant to dwie osobne aplikacje, ale współdzielą dane, gdy są otwierane z tego samego adresu.</p>
+      <p class="muted" style="margin:0">Planowanie budowy i Projektowanie garażu to dwie osobne aplikacje, ale współdzielą dane, gdy są otwierane z tego samego adresu.</p>
     </div>
     <div class="card"><h2>Reset</h2><div class="row">
-      <button class="btn danger" id="rst">Wyczyść dane Planera</button></div></div>
+      <button class="btn danger" id="rst">Wyczyść dane Planowania budowy</button></div></div>
     <div class="card"><h2>O aplikacji</h2><p>${esc(DISCLAIMER)}</p><p class="muted" style="margin:0">Wersja 1.0 · działa offline</p></div>`;
   document.getElementById('exp').onclick = () => downloadFile(`garaz-kopia-${isoDate(new Date())}.json`, JSON.stringify(Store.exportAll(), null, 2));
   document.getElementById('imp').onclick = async () => {
@@ -546,7 +546,7 @@ VIEWS.ustawienia = () => {
     catch (e) { toast(e.message || 'Błąd importu'); }
   };
   document.getElementById('rst').onclick = async () => {
-    if (await confirmDialog('Usunąć wszystkie dane Planera (listę, harmonogram, budżet, notatki)? Projekt w Projektancie zostanie. Tej operacji nie można cofnąć.', 'Usuń')) {
+    if (await confirmDialog('Usunąć wszystkie dane Planowania budowy (listę, harmonogram, budżet, notatki)? Projekt w Projektowaniu garażu zostanie. Tej operacji nie można cofnąć.', 'Usuń')) {
       S = defaultState(); save(); toast('Wyczyszczono'); route();
     }
   };

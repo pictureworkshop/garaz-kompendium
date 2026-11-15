@@ -2,9 +2,9 @@
 'use strict';
 
 const KEYS = {
-  design: 'garaz.projekt',     // projekt z Projektanta (czyta go też Planer)
+  design: 'garaz.projekt',     // projekt z Projektowania garażu (czyta go też Planowanie budowy)
   variants: 'garaz.warianty',  // zapisane warianty projektu
-  planer: 'garaz.planer',      // stan Planera
+  planer: 'garaz.planer',      // stan Planowania budowy
   theme: 'garaz.motyw',
 };
 

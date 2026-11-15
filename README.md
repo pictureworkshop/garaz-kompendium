@@ -1,13 +1,13 @@
 # Garaż – kompendium budowy (2 aplikacje PWA)
 
-**Na żywo:** <https://pictureworkshop.github.io/garaz-kompendium/> · [Projektant](https://pictureworkshop.github.io/garaz-kompendium/projektant/) · [Planer](https://pictureworkshop.github.io/garaz-kompendium/planer/)
+**Na żywo:** <https://pictureworkshop.github.io/garaz-kompendium/> · [Projektowanie garażu](https://pictureworkshop.github.io/garaz-kompendium/projektant/) · [Planowanie budowy](https://pictureworkshop.github.io/garaz-kompendium/planer/)
 
 | Aplikacja | Folder | Do czego |
 |---|---|---|
-| **Projektant garażu** | `projektant/` | wymiary, ściany, dach, fundamenty, brama/drzwi/okna, położenie na działce, widok 3D, rzut + 4 elewacje + plan sytuacyjny, opis techniczny do zgłoszenia, kosztorys, kontrola przepisów, warianty |
-| **Planer budowy** | `planer/` | kreator ścieżki (zgłoszenie / pozwolenie), lista kontrolna dokumentów, harmonogram (Gantt), budżet plan/wydatki, kompendium wiedzy, notatki i kontakty, kopia zapasowa |
+| **Projektowanie garażu** | `projektant/` | wymiary, ściany, dach, fundamenty, brama/drzwi/okna, położenie na działce, widok 3D, rzut + 4 elewacje + plan sytuacyjny, opis techniczny do zgłoszenia, kosztorys, kontrola przepisów, warianty |
+| **Planowanie budowy** | `planer/` | kreator ścieżki (zgłoszenie / pozwolenie), lista kontrolna dokumentów, harmonogram (Gantt), budżet plan/wydatki, kompendium wiedzy, notatki i kontakty, kopia zapasowa |
 
-Obie aplikacje działają offline, bez serwera i bez kont. Dane trzymane są w przeglądarce (`localStorage`) i są **wspólne**, jeśli obie aplikacje są otwierane z tego samego adresu: Planer sam odczytuje projekt z Projektanta (ścieżka formalna, kosztorys → budżet).
+Obie aplikacje działają offline, bez serwera i bez kont. Dane trzymane są w przeglądarce (`localStorage`) i są **wspólne**, jeśli obie aplikacje są otwierane z tego samego adresu: Planowanie budowy samo odczytuje projekt z Projektowania garażu (ścieżka formalna, kosztorys → budżet).
 
 ## Uruchomienie lokalnie
 
@@ -37,7 +37,7 @@ planer/                 index.html, app.js, content.js (listy kontrolne, harmono
 projektant/             index.html, app.js, drawings.js (SVG), view3d.js (3D), sw.js, manifest
 ```
 
-Ceny jednostkowe i stawki robocizny są w `shared/garage-calc.js` (`PRICES`) – można je też nadpisać w Projektancie → Kosztorys (✎).
+Ceny jednostkowe i stawki robocizny są w `shared/garage-calc.js` (`PRICES`) – można je też nadpisać w Projektowaniu garażu → Kosztorys (✎).
 
 ## Zastrzeżenie
 
